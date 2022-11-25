@@ -1,0 +1,27 @@
+@font-face {
+    font-family: Pixeloid;
+    src: url(./PixeloidSans-nR3g1.woff2);
+}
+
+h1{
+    text-align: center;
+    font-family: Pixeloid;
+}
+
+.sketchboard {
+    margin: 0;
+    padding: 0;
+    line-height: 12px;
+    text-align: center;
+}
+
+.sketchboard > div{
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
+    height: 16px;
+    width: 16px;
+    display:inline-block;
+    margin: 0;
+    padding: 0;
+}
