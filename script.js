@@ -1,24 +1,81 @@
-const slider = document.getElementById("grid-size");
-let gridSize = slider.value;
-document.getElementById("size-display").innerHTML = gridSize;
+const slider = document.getElementById("grid-size-slider");
+const applyBtn = document.getElementById("apply");
+const sliderDisplay = document.getElementById("show-grid-size");
+let gridSize = slider.value;    
+sliderDisplay.innerHTML = gridSize;
 
-slider.oninput = function(){
-    document.getElementById("size-display").innerHTML = this.value;
-} 
+//Call createGrid on DOMloading
+window.addEventListener("DOMContentLoaded", ()=>{createGrid("init")})
 
-//Creates grid and gived id to each div
-for(i=0;i<gridSize;i++){
-    for(j=0;j<gridSize;j++){
-        const makeDiv = document.createElement("div");
-        document.querySelector(".sketchboard").appendChild(makeDiv);
-        // makeDiv.setAttribute("id",`cell${i}-${j}`)
-        makeDiv.addEventListener('mouseover',hilight)
+
+//EventListner for showing range output
+slider.addEventListener("input", ()=> {
+    sliderDisplay.innerHTML = slider.value;
+})
+ 
+//Enter key to Apply range input changes
+slider.addEventListener("keypress",(e)=> {
+    if(e.key==="Enter"){ applyBtn.click() }
+})
+
+//Global shortcut for Clearing grid
+document.addEventListener("keydown",(e)=>{
+    if(e.ctrlKey && (e.key.toUpperCase()==="Z")){
+        document.getElementById("clear").click()
     }
-    document.querySelector(".sketchboard").appendChild(document.createElement("br"));
+})
+
+document.getElementById("clear").addEventListener("click",()=>{createGrid("clear")})
+
+applyBtn.addEventListener("click",()=>{createGrid("apply")})
+
+function createGrid(calledFrom){
+    switch(calledFrom){
+        case "init": break;
+        case "clear":
+            if(gridSize===sliderDisplay.innerHTML){break}
+            else{
+                sliderDisplay.innerHTML = slider.value = gridSize;
+                break;
+            }
+        case "apply":
+            if(gridSize===sliderDisplay.innerHTML){return}
+            else{
+                gridSize = sliderDisplay.innerHTML;
+                break;    
+            }
+        default: throw Error('createGrid() not supplied with a valid argument.')
+    }
+    
+    const sketchboard = document.querySelector(".sketchboard");
+    sketchboard.replaceChildren();
+    for(i=0;i<gridSize;i++){
+        for(j=0;j<gridSize;j++){
+            const makeDiv = document.createElement("div");
+            
+            sketchboard.appendChild(makeDiv)
+            makeDiv.addEventListener('mouseover',makeTrail)
+        }
+        sketchboard.appendChild(document.createElement("br"));
+    }
 }
 
-function hilight(e){
-    e.target.style.background='black';
-} 
+const modeMenu = document.querySelectorAll(".modes > input");
+modeMenu.forEach((element) => element.addEventListener('click',checkChoice));
 
-const clear = document.getElementById("clear")
+function checkChoice(e){
+    console.log(e.target.id)
+   
+}
+
+
+function makeTrail(e){
+    e.target.style.background = randoRgbColor()
+
+}
+
+function randoRgbColor(){
+    return `rgb(${Math.floor(Math.random()*256)},${
+        Math.floor(Math.random()*256)},${
+            Math.floor(Math.random()*256)})`
+}

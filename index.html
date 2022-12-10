@@ -6,16 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <title>Etch-a-Sketch</title>
 </head>
 <body>
     <h1>Etch-a-Sketch</h1>
     <div class="controls">
         <div>CONTROL ROOM 🎮</div>
-        <div>Grid Size: <span id="size-display"></span></div>
-        <input id="grid-size" type="range" min="2" max="100" value="16">
-        <button>Apply</button><br>
-        <span>RGB mode</span><input type="checkbox" id ="rgb-mode"></input><br>
+        <fieldset class="grid-size">
+            <div>Grid Size: <span id="show-grid-size"></span></div>
+            <input id="grid-size-slider" type="range" min="2" max="100" value="16">
+            <button id="apply">Apply</button><br>
+        </fieldset>
+        <fieldset class="modes">
+            <legend>Mode:</legend>
+            <input type="radio" id ="default-mode" name="modes" checked >
+            <label for="default-mode">Default</label><br>
+            <input type="radio" id ="rgb-mode" name="modes">
+            <label for="rgb-mode">RGB</label><br>
+            <input type="radio" id ="emoji-mode" name="modes">
+            <label for="emoji-mode">Emoji</label><br>
+        </fieldset>
         <button id="clear">CLEAR 🧹</button>
     </div>
     <div class="sketchboard">
