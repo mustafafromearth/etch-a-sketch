@@ -60,18 +60,19 @@ function createGrid(calledFrom){
     }
 }
 
-const modeMenu = document.querySelectorAll(".modes > input");
-modeMenu.forEach((element) => element.addEventListener('click',checkChoice));
-
-function checkChoice(e){
-    console.log(e.target.id)
-   
+function makeTrail(e){
+    switch(whichMode()){
+        case "default-mode": e.target.style.background = "black"; break;
+        case "rgb-mode": e.target.style.background = randoRgbColor(); break;
+        default: throw Error("Invalid radio button selected")
+    }
 }
 
-
-function makeTrail(e){
-    e.target.style.background = randoRgbColor()
-
+function whichMode(){
+    const modeMenu = document.querySelectorAll(".modes > input");
+    for(i=0;i<2;i++){
+        if(modeMenu[i].checked){return modeMenu[i].id}
+    }
 }
 
 function randoRgbColor(){
