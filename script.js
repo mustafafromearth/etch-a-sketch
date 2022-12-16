@@ -1,12 +1,12 @@
 const slider = document.getElementById("grid-size-slider");
 const applyBtn = document.getElementById("apply");
 const sliderDisplay = document.getElementById("show-grid-size");
-let gridSize = slider.value;    
-sliderDisplay.innerHTML = gridSize;
+const modeMenu = document.querySelectorAll(".modes > input");
+let gridSize = slider.value;
+let currentMode = defaultMode;
 
-//Call createGrid on DOMloading
-window.addEventListener("DOMContentLoaded", ()=>{createGrid("init")})
-
+//Initialize grid creation
+createGrid()
 
 //EventListner for showing range output
 slider.addEventListener("input", ()=> {
@@ -18,65 +18,64 @@ slider.addEventListener("keypress",(e)=> {
     if(e.key==="Enter"){ applyBtn.click() }
 })
 
-//Global shortcut for Clearing grid
+//Map Ctrl+Z to Clear Button
 document.addEventListener("keydown",(e)=>{
     if(e.ctrlKey && (e.key.toUpperCase()==="Z")){
         document.getElementById("clear").click()
     }
 })
 
-document.getElementById("clear").addEventListener("click",()=>{createGrid("clear")})
-
-applyBtn.addEventListener("click",()=>{createGrid("apply")})
-
-function createGrid(calledFrom){
-    switch(calledFrom){
-        case "init": break;
-        case "clear":
-            if(gridSize===sliderDisplay.innerHTML){break}
-            else{
-                sliderDisplay.innerHTML = slider.value = gridSize;
-                break;
-            }
-        case "apply":
-            if(gridSize===sliderDisplay.innerHTML){return}
-            else{
-                gridSize = sliderDisplay.innerHTML;
-                break;    
-            }
-        default: throw Error('createGrid() not supplied with a valid argument.')
+//Limit Clear Button to when sliderDisplay remains unchanged
+document.getElementById("clear").addEventListener("click",()=>{
+    if(gridSize===sliderDisplay.innerHTML){createGrid()}
+    else{
+        sliderDisplay.innerHTML = slider.value = gridSize;
+        createGrid();
     }
-    
+})
+
+//Limit applyBtn to when sliderDisplay value changes
+applyBtn.addEventListener("click",()=>{
+    if(gridSize!==sliderDisplay.innerHTML){
+        gridSize = sliderDisplay.innerHTML;
+        createGrid();
+    }
+})
+
+function createGrid(){
     const sketchboard = document.querySelector(".sketchboard");
+    sketchboard.style.gridTemplateColumns = `repeat(${gridSize},1fr)`;
     sketchboard.replaceChildren();
-    for(i=0;i<gridSize;i++){
-        for(j=0;j<gridSize;j++){
-            const makeDiv = document.createElement("div");
-            
-            sketchboard.appendChild(makeDiv)
-            makeDiv.addEventListener('mouseover',makeTrail)
-        }
-        sketchboard.appendChild(document.createElement("br"));
+
+    for(i=0;i<gridSize*gridSize;i++){
+        const makeDiv = document.createElement("div");
+        makeDiv.addEventListener('mouseover',currentMode)
+        sketchboard.appendChild(makeDiv)
     }
 }
 
-function makeTrail(e){
-    switch(whichMode()){
-        case "default-mode": e.target.style.background = "black"; break;
-        case "rgb-mode": e.target.style.background = randoRgbColor(); break;
-        default: throw Error("Invalid radio button selected")
-    }
+function defaultMode(e){
+    e.target.style.background = "black";
 }
 
-function whichMode(){
-    const modeMenu = document.querySelectorAll(".modes > input");
-    for(i=0;i<2;i++){
-        if(modeMenu[i].checked){return modeMenu[i].id}
-    }
-}
-
-function randoRgbColor(){
-    return `rgb(${Math.floor(Math.random()*256)},${
+function rgbMode(e){
+    e.target.style.background =
+     `rgb(${Math.floor(Math.random()*256)},${
         Math.floor(Math.random()*256)},${
             Math.floor(Math.random()*256)})`
+}
+
+modeMenu.forEach((element) => element.addEventListener('click',changeMode));
+
+//Appropriate function attached to sketchboardCells according to radio input
+function changeMode(e){
+    const sketchboardCells = document.querySelectorAll(".sketchboard > div");
+    sketchboardCells.forEach((element)=>{
+        element.removeEventListener("mouseover", currentMode);
+    })
+    const mode = e.target.id;
+    currentMode = Function("return " + e.target.id)()
+    sketchboardCells.forEach((element)=>{
+        element.addEventListener("mouseover", currentMode);
+    })
 }
