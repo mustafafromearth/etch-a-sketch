@@ -6,28 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.png">
     <title>Etch-a-Sketch</title>
 </head>
 <body>
     <h1>Etch-a-Sketch</h1>
-    <div class="controls">
-        <div>CONTROL ROOM 🎮</div>
-        <fieldset class="grid-size">
-            <div>Grid Size: <span id="show-grid-size"></span></div>
-            <input id="grid-size-slider" type="range" min="2" max="100" value="16">
-            <button id="apply">Apply</button><br>
-        </fieldset>
-        <fieldset class="modes">
-            <legend>Mode:</legend>
-            <input type="radio" id ="default-mode" name="modes" checked >
-            <label for="default-mode">Default</label><br>
-            <input type="radio" id ="rgb-mode" name="modes">
-            <label for="rgb-mode">RGB</label><br>
-        </fieldset>
-        <button id="clear">CLEAR 🧹</button>
+    <div class="main-container">
+        <div class="controls-container">
+            <h2>CONTROL ROOM 🎮</h2>
+            <fieldset class="resolution">
+                <legend>Resolution:</legend>
+                <label for="grid-size-slider">Grid Size: <span id="show-slider-input">16</span></label>
+                <div class="flex-align-container">
+                    <input id="grid-size-slider" type="range" min="2" max="100" value="16">
+                    <button id="apply">APPLY</button>
+                </div>
+            </fieldset>
+            <fieldset class="modes">
+                <legend>Mode:</legend>
+                <div class="flex-align-container">
+                    <input type="radio" id ="defaultMode" name="modes" checked>
+                    <label for="defaultMode">Default</label><br>
+                </div>
+                <div class="flex-align-container">
+                    <input type="radio" id ="rgbMode" name="modes">
+                    <label for="rgbMode">RGB</label>
+                </div>
+            </fieldset>
+            <button id="clear">CLEAR</button>
+        </div>
+        <div class="sketchboard">
+        </div>
     </div>
-    <div class="sketchboard">
-    </div>  
 </body>
-</html> 
+</html>
