@@ -62,7 +62,7 @@ h1{
         align-items: center;
     }
 
-    .modes > .flex-align-container > input{
+    .modes input{
         appearance: none;
         width: 1rem;
         height: 1rem;
@@ -70,7 +70,7 @@ h1{
         transition: 0.2s all linear;
     }
 
-    .modes > .flex-align-container >:checked{
+    .modes input:checked{
         border: 0.35rem solid black;
     }
 

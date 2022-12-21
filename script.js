@@ -1,7 +1,7 @@
 const slider = document.getElementById("grid-size-slider");
 const applyBtn = document.getElementById("apply");
 const sliderDisplay = document.getElementById("show-slider-input");
-const modeMenu = document.querySelectorAll(".modes > .flex-align-container > input");
+const modeMenu = document.querySelectorAll(".modes input");
 let gridSize = slider.value;
 let currentMode = defaultMode;
 
