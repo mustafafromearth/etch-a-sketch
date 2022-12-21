@@ -1,6 +1,6 @@
 const slider = document.getElementById("grid-size-slider");
 const applyBtn = document.getElementById("apply");
-const sliderDisplay = document.getElementById("show-grid-size");
+const sliderDisplay = document.getElementById("show-slider-input");
 const modeMenu = document.querySelectorAll(".modes > input");
 let gridSize = slider.value;
 let currentMode = defaultMode;
@@ -12,7 +12,7 @@ createGrid()
 slider.addEventListener("input", ()=> {
     sliderDisplay.innerHTML = slider.value;
 })
- 
+
 //Enter key to Apply range input changes
 slider.addEventListener("keypress",(e)=> {
     if(e.key==="Enter"){ applyBtn.click() }
@@ -73,7 +73,6 @@ function changeMode(e){
     sketchboardCells.forEach((element)=>{
         element.removeEventListener("mouseover", currentMode);
     })
-    const mode = e.target.id;
     currentMode = Function("return " + e.target.id)()
     sketchboardCells.forEach((element)=>{
         element.addEventListener("mouseover", currentMode);
