@@ -17,7 +17,7 @@ h1{
 
 .main-container{
     display: flex;
-    justify-items: center;
+    align-items: center;
 }
 
 .controls-container{
